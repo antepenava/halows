@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<Server port="8005" shutdown="SHUTDOWN"> -->
+<!--<Server port="8005" shutdown="INSIFECUSOTMSHUTDOWNPROCEDURE"> -->
+<Server port="8005" shutdown="SHUTDOWN">
+  <Listener className="org.apache.catalina.startup.VersionLoggerListener" />
+  <Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="on" />
+  <Listener className="org.apache.catalina.core.JreMemoryLeakPreventionListener" />
+  <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener" />
+  <Listener className="org.apache.catalina.core.ThreadLocalLeakPreventionListener" />
+  <GlobalNamingResources>
+    <Resource name="UserDatabase" auth="Container"
+              type="org.apache.catalina.UserDatabase"
+              description="User database that can be updated and saved"
+              factory="org.apache.catalina.users.MemoryUserDatabaseFactory"
+              pathname="conf/tomcat-users.xml" />
+  </GlobalNamingResources>
+  <Service name="Catalina">
+  
+        <Connector port="8080"
+            protocol="org.apache.coyote.http11.Http11NioProtocol"
+            redirectPort="8443"
+            proxyName="localhost"
+            proxyPort="8443"
+            maxThreads="200"
+            connectionTimeout="20000" />
+
+        <Connector port="8443"
+              protocol="org.apache.coyote.http11.Http11NioProtocol"
+              connectionTimeout="20000"
+              scheme="https"
+              secure="true"
+              proxyName="localhost"
+              proxyPort="8443"
+              useRelativeRedirects="true"
+              connectionUploadTimeout="20000"
+              maxConnections="500"
+              maxThreads="200"
+              maxParameterCount="1000"
+              compression="on"
+              compressionMinSize="1024"
+              SSLEnabled="true"
+              SSLCertificateFile="/usr/local/tomcat/cert/tomcat.crt"
+              SSLCertificateKeyFile="/usr/local/tomcat/cert/tomcat.key"
+              SSLProtocol="TLSv1.2,TLSv1.3"
+              ciphers="TLS_AES_256_GCM_SHA384,TLS_AES_128_GCM_SHA256,TLS_CHACHA20_POLY1305_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"
+              relaxedPathChars="[\]^`{|}"
+              relaxedQueryChars="[\]^`{|}"
+        >
+          <!-- <UpgradeProtocol className="org.apache.coyote.http2.Http2Protocol" /> -->
+        </Connector>
+    <Engine name="Catalina" defaultHost="localhost">
+      <Realm className="org.apache.catalina.realm.LockOutRealm">
+        <Realm className="org.apache.catalina.realm.UserDatabaseRealm"
+              resourceName="UserDatabase"/>
+      </Realm>
+      <Host name="localhost"  appBase="webapps"
+            unpackWARs="true" autoDeploy="true">
+        <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
+              prefix="localhost_access_log" suffix=".txt"
+              pattern="%h %l %u %t &quot;%r&quot; %s %b" />
+      </Host>
+    </Engine>
+  </Service>
+</Server>
