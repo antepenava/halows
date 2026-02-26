@@ -53,6 +53,7 @@ EOF
   $ORDS_DIR/bin/ords --config $ORDS_DIR/config config set security.externalSessionTrustedOrigins "https://login.microsoftonline.com, https://localhost:8443"
   $ORDS_DIR/bin/ords --config $ORDS_DIR/config config delete security.requestValidationFunction
   $ORDS_DIR/bin/ords --config $ORDS_DIR/config config set misc.defaultPage apex
+  $ORDS_DIR/bin/ords --config $ORDS_DIR/config config set jdbc.InitialLimit 10
   $ORDS_DIR/bin/ords --config $ORDS_DIR/config war ${CATALINA_HOME}/webapps/ords.war
   $ORDS_DIR/bin/ords --config $ORDS_DIR/config config user add --password-stdin APIUSER "RESTful Services" <<EOF
 $TEMP_APIUSER_PWD

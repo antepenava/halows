@@ -1,21 +1,21 @@
-FROM tomcat:9.0.98-jre17-temurin-noble AS unpack_tomcat
+FROM tomcat:9.0.115-jre25-temurin AS unpack_tomcat
 WORKDIR /usr/local/tomcat
 RUN mkdir /usr/local/tomcat/webapps/ROOT
-COPY software/apache-tomcat-9.0.98/webapps/ROOT/* /usr/local/tomcat/webapps/ROOT/
-COPY software/apache-tomcat-9.0.98/conf/web.xml /usr/local/tomcat/conf/
-COPY software/apache-tomcat-9.0.98/conf/server.xml /usr/local/tomcat/conf/
-COPY software/apache-tomcat-9.0.98/cert/* /usr/local/tomcat/cert/
+COPY config/tomcat/webapps/ROOT/* /usr/local/tomcat/webapps/ROOT/
+COPY config/tomcat/conf/web.xml /usr/local/tomcat/conf/
+COPY config/tomcat/conf/server.xml /usr/local/tomcat/conf/
+COPY config/tomcat/cert/* /usr/local/tomcat/cert/
 RUN apt-get update && apt-get install -y wget unzip
 RUN wget https://download.oracle.com/otn_software/java/ords/ords-24.1.1.120.1228.zip -O /opt/ords.zip
 RUN unzip /opt/ords.zip -d /opt/ords && cp /opt/ords/ords.war /usr/local/tomcat/webapps
 
 # Set the base image to Amazon Linux 2023
-FROM tomcat:9.0.98-jre17-temurin-noble
+FROM tomcat:9.0.115-jre25-temurin
 
 # File Author / Maintainer
 LABEL maintainer="ante.penava@insife.com"
-LABEL tomcat="9.0.98"
-LABEL java="jre-17"
+LABEL tomcat="9.0.115"
+LABEL java="jre-25"
 LABEL ORDS="24.1"
 
 # ------------------------------------------------------------------------------
